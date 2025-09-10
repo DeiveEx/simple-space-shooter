@@ -27,7 +27,7 @@ public class AccelerationMovement : MonoBehaviour, IMovementController
 
     private void FixedUpdate()
     {
-        ApplyForce(_force);
+        ApplyForce(_force * _settings.Acceleration);
         _force = Vector2.zero;
     }
 
@@ -45,7 +45,7 @@ public class AccelerationMovement : MonoBehaviour, IMovementController
 
     private void ApplyForce(Vector2 force)
     {
-        _rigidbody.AddForce(force * _settings.Acceleration);
+        _rigidbody.AddForce(force);
         _rigidbody.linearVelocity = Vector2.ClampMagnitude(_rigidbody.linearVelocity, _settings.MaxSpeed);
     }
 }
