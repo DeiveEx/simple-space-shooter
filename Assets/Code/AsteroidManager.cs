@@ -1,16 +1,19 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class AsteroidManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _asteroidPrefab;
+    [SerializeField] private AsteroidController _asteroidPrefab;
     [SerializeField] private int _initialAmount = 5;
-    [SerializeField] private float _initialSpeed = 5;
-    [SerializeField] private Transform _player;
+    [SerializeField] private float _initialForce = 5;
     [SerializeField] private float _minPlayerRange = 5;
 
     private Camera _camera;
+    private readonly List<AsteroidController> _asteroids = new ();
+    
+    public IReadOnlyList<AsteroidController> Asteroids => _asteroids;
+    private GameObject Player => GameManager.Instance.PlayerShip;
     
     private void Awake()
     {
@@ -18,20 +21,23 @@ public class AsteroidManager : MonoBehaviour
         
         for (int i = 0; i < _initialAmount; i++)
         {
-            SpawnAsteroid();
+            var spawnPos = GetSpawnPosition();
+            SpawnAsteroid(_asteroidPrefab, spawnPos, Random.insideUnitCircle.normalized * _initialForce);
         }
     }
 
-    private void OnValidate()
+    public void SpawnAsteroid(AsteroidController asteroidPrefab, Vector3 spawnPos, Vector2 force)
     {
-        if (_asteroidPrefab.GetComponent<Rigidbody2D>() == null)
-        {
-            _asteroidPrefab = null;
-            Debug.LogError("Prefab must have a Rigidbody2D!", this);
-        }
+        
+        
+        var asteroid = Instantiate(asteroidPrefab, spawnPos, Quaternion.identity);
+        
+        //Add a force in a random direction
+        var rb = asteroid.GetComponent<Rigidbody2D>();
+        rb.AddForce(force, ForceMode2D.Impulse);
     }
 
-    private void SpawnAsteroid()
+    private Vector3 GetSpawnPosition()
     {
         //Find a random position on the screen that is not too close to the player
         Vector3 spawnPos;
@@ -47,14 +53,11 @@ public class AsteroidManager : MonoBehaviour
             
             spawnPos = _camera.ScreenToWorldPoint(screenPosition);
         }
-        while(Vector2.Distance(_player.position, spawnPos) < _minPlayerRange);
-        
-        var asteroid = Instantiate(_asteroidPrefab, spawnPos, Quaternion.identity);
-        
-        //Add a force in a random direction
-        var rb = asteroid.GetComponent<Rigidbody2D>();
-        var randomDirection = Random.insideUnitCircle.normalized;
-        
-        rb.AddForce(randomDirection * _initialSpeed, ForceMode2D.Impulse);
+        while(Vector2.Distance(Player.transform.position, spawnPos) < _minPlayerRange);
+
+        return spawnPos;
     }
+    
+    public void RegisterAsteroid(AsteroidController asteroid) => _asteroids.Add(asteroid);
+    public void UnregisterAsteroid(AsteroidController asteroid) => _asteroids.Remove(asteroid);
 }
