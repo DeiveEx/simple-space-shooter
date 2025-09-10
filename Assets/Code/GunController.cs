@@ -7,8 +7,11 @@ public class GunController : MonoBehaviour, IGunController
     [SerializeField] private Transform _gunBarrel;
     [SerializeField] private float _fireRate = 1;
 
-    private ObjectPool<Projectile> _projectilePool;
+    private IObjectPool<Projectile> _projectilePool;
     private float _lastShootTime;
+
+    public bool CanShoot => Time.time - _lastShootTime > 1f / _fireRate;
+    public Projectile ProjectilePrefab => _bulletPrefab;
 
     private void Awake()
     {
@@ -34,7 +37,7 @@ public class GunController : MonoBehaviour, IGunController
 
     public void Shoot()
     {
-        if(Time.time - _lastShootTime < 1f / _fireRate)
+        if(!CanShoot)
             return;
 
         _projectilePool.Get();
