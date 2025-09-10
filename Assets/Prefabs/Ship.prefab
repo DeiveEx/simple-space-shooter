@@ -290,7 +290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletPrefab: {fileID: 8839656655434221548, guid: ee9208da3154e97498bf183833293cbb, type: 3}
   _gunBarrel: {fileID: 7788225471320160690}
-  _fireRate: 10
+  _fireRate: 3
 --- !u!114 &4156410487607621208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,4 +305,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 2972501819150142391}
   _gunHolder: {fileID: 1528283475017244989}
-  _shootRange: 5
+  _dangerRange: 2
+  _greedRange: 5

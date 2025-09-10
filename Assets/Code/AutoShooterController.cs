@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(IGunController))]
@@ -5,7 +6,8 @@ public class AutoShooterController : MonoBehaviour
 {
     [SerializeField] private Transform _player;
     [SerializeField] private Transform _gunHolder;
-    [SerializeField] private float _shootRange = 5;
+    [SerializeField] private float _dangerRange = 5;
+    [SerializeField] private float _greedRange = 5;
 
     private IGunController _gun;
     private float _bulletSpeed;
@@ -24,6 +26,15 @@ public class AutoShooterController : MonoBehaviour
         TryShootMostValuableAsteroid();
     }
 
+    private void OnValidate()
+    {
+        if (_greedRange < _dangerRange)
+        {
+            Debug.LogWarning($"{nameof(_greedRange)} cannot be lower than {nameof(_dangerRange)}");
+            _greedRange = _dangerRange;
+        }
+    }
+
     private void TryShootClosestAsteroid()
     {
         if(!_gun.CanShoot)
@@ -36,11 +47,11 @@ public class AutoShooterController : MonoBehaviour
         {
             var distance = Vector2.Distance(_player.position, asteroid.transform.position);
 
-            if (distance < _shootRange && distance < closestDistance)
-            {
-                closest = asteroid;
-                closestDistance = distance;
-            }
+            if (distance > _dangerRange || distance > closestDistance)
+                continue;
+            
+            closest = asteroid;
+            closestDistance = distance;
         }
         
         if(closest == null)
@@ -54,7 +65,34 @@ public class AutoShooterController : MonoBehaviour
         if(!_gun.CanShoot)
             return;
 
-        //TODO
+        AsteroidController mostValuable = null;
+        float targetDistance = float.MaxValue;
+        int highestPoints = 0;
+        
+        foreach (var asteroid in AsteroidManager.Asteroids)
+        {
+            var distance = Vector2.Distance(_player.position, asteroid.transform.position);
+
+            if (distance > _greedRange)
+                continue;
+
+            var points = 0; //TODO
+            
+            if(points < highestPoints)
+                continue;
+
+            //Check if the asteroid gives more points or, if it gives the same amount of points, if it's closer
+            if (points > highestPoints || distance < targetDistance)
+            {
+                mostValuable = asteroid;
+                targetDistance = distance;
+            }
+        }
+        
+        if(mostValuable == null)
+            return;
+        
+        ShootAtAsteroid(mostValuable);
     }
 
     private void ShootAtAsteroid(AsteroidController target)
@@ -72,6 +110,9 @@ public class AutoShooterController : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireSphere(transform.position, _shootRange);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _dangerRange);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position,_greedRange);
     }
 }
