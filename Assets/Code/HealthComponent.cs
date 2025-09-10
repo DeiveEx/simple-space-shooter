@@ -4,9 +4,9 @@ public class HealthComponent : MonoBehaviour, IDamageable
 {
     [SerializeField] private int _health = 3;
     
-    public void Damage()
+    public void Damage(int amount)
     {
-        _health--;
+        _health -= amount;
 
         if (_health <= 0)
             Die();
@@ -14,6 +14,7 @@ public class HealthComponent : MonoBehaviour, IDamageable
 
     private void Die()
     {
+        Debug.Log("Died");
         Destroy(gameObject);
     }
 }
