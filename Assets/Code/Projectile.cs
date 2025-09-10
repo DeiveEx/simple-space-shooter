@@ -20,6 +20,12 @@ public class Projectile : MonoBehaviour
 
     private void OnLifetimeEnd()
     {
+        CancelInvoke();
         _onLifetimeEnd?.Invoke();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        OnLifetimeEnd();
     }
 }
