@@ -241,3 +241,4 @@ MonoBehaviour:
   _splitAmount: 2
   _splitAngleOffset: 30
   _splitSpeedMultiplier: 1.1
+  _score: 500
