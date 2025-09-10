@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class AsteroidManager : MonoBehaviour
 {
@@ -17,6 +19,15 @@ public class AsteroidManager : MonoBehaviour
         for (int i = 0; i < _initialAmount; i++)
         {
             SpawnAsteroid();
+        }
+    }
+
+    private void OnValidate()
+    {
+        if (_asteroidPrefab.GetComponent<Rigidbody2D>() == null)
+        {
+            _asteroidPrefab = null;
+            Debug.LogError("Prefab must have a Rigidbody2D!", this);
         }
     }
 

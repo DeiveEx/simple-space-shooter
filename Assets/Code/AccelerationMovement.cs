@@ -38,7 +38,7 @@ public class AccelerationMovement : MonoBehaviour, IMovementController
         _rigidbody.linearDamping = _settings.Drag;
     }
 
-    public void Move(Vector2 direction)
+    public void SetDirection(Vector2 direction)
     {
         _forceDirection = direction.normalized;
     }
