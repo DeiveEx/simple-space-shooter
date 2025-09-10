@@ -19,7 +19,13 @@ public class GunController : MonoBehaviour, IGunController
             () =>
             {
                 var bullet = Instantiate(_bulletPrefab);
-                bullet.Setup(() => _projectilePool.Release(bullet));
+                bullet.Setup(() =>
+                {
+                    if(!bullet.gameObject.activeSelf)
+                        return;
+                    
+                    _projectilePool.Release(bullet);
+                });
                 return bullet;
             },
             p =>
