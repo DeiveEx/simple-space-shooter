@@ -7,6 +7,8 @@ public class ForwardMovement : MonoBehaviour, IMovementController
 
     private Vector2 _moveDirection;
 
+    public float Speed => _speed;
+
     private void Awake()
     {
         _moveDirection = _initialDirection;

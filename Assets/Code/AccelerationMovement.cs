@@ -17,6 +17,8 @@ public class AccelerationMovement : MonoBehaviour, IMovementController
     private Rigidbody2D _rigidbody;
     private Vector2 _forceDirection;
     
+    public float Speed => _rigidbody.linearVelocity.magnitude;
+    
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -37,7 +39,7 @@ public class AccelerationMovement : MonoBehaviour, IMovementController
         
         _rigidbody.linearDamping = _settings.Drag;
     }
-
+    
     public void SetDirection(Vector2 direction)
     {
         _forceDirection = direction.normalized;
