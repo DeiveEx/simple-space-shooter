@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 813537212959414308}
   - component: {fileID: 92429839623061359}
   - component: {fileID: 3293723790026018786}
+  - component: {fileID: 4156410487607621208}
   m_Layer: 8
   m_Name: Ship
   m_TagString: Untagged
@@ -290,3 +291,18 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 8839656655434221548, guid: ee9208da3154e97498bf183833293cbb, type: 3}
   _gunBarrel: {fileID: 7788225471320160690}
   _fireRate: 10
+--- !u!114 &4156410487607621208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6863642571446140081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13606281e83dd1546b193f35dec11d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 2972501819150142391}
+  _gunHolder: {fileID: 1528283475017244989}
+  _shootRange: 5

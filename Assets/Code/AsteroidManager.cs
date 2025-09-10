@@ -21,15 +21,15 @@ public class AsteroidManager : MonoBehaviour
         
         for (int i = 0; i < _initialAmount; i++)
         {
-            var spawnPos = GetSpawnPosition();
-            SpawnAsteroid(_asteroidPrefab, spawnPos, Random.insideUnitCircle.normalized * _initialForce);
+            var spawnPos = GetRandomSpawnPosition();
+            var randomDir = Random.insideUnitCircle.normalized * _initialForce;
+            SpawnAsteroid(_asteroidPrefab, spawnPos, randomDir);
         }
     }
 
     public void SpawnAsteroid(AsteroidController asteroidPrefab, Vector3 spawnPos, Vector2 force)
-    {
-        
-        
+    { 
+        //TODO user Object pool for each asteroid type?
         var asteroid = Instantiate(asteroidPrefab, spawnPos, Quaternion.identity);
         
         //Add a force in a random direction
@@ -37,7 +37,7 @@ public class AsteroidManager : MonoBehaviour
         rb.AddForce(force, ForceMode2D.Impulse);
     }
 
-    private Vector3 GetSpawnPosition()
+    private Vector3 GetRandomSpawnPosition()
     {
         //Find a random position on the screen that is not too close to the player
         Vector3 spawnPos;
