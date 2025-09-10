@@ -2,5 +2,5 @@ using UnityEngine;
 
 public interface IMovementController
 {
-    void Move(Vector2 direction);
+    void SetDirection(Vector2 direction);
 }

@@ -20,7 +20,7 @@ public class InputHandler : MonoBehaviour
 
     private void Update()
     {
-        _movement.Move(_moveDirection);
+        _movement.SetDirection(_moveDirection);
     }
 
     private void RegisterInputEvents()
