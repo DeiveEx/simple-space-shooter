@@ -8,10 +8,12 @@ public class AsteroidController : MonoBehaviour, IDamageable
     [SerializeField] private int _splitAmount = 2;
     [SerializeField] private float _splitAngleOffset = 30f;
     [SerializeField] private float _splitSpeedMultiplier = 1.5f;
+    [SerializeField] private int _score;
 
     private Rigidbody2D _rigidbody;
 
     public Rigidbody2D Rigidbody => _rigidbody;
+    public int Score => _score;
     private AsteroidManager AsteroidManager => GameManager.Instance.AsteroidManager;
 
     private void Awake() => _rigidbody = GetComponent<Rigidbody2D>();
@@ -21,6 +23,7 @@ public class AsteroidController : MonoBehaviour, IDamageable
     public void Damage(int amount)
     {
         Split();
+        GameManager.Instance.PlayerShip.GetComponent<ScoreController>().AddScore(_score);
         Destroy(gameObject);
     }
 
