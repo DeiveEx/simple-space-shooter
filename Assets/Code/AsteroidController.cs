@@ -10,7 +10,8 @@ public class AsteroidController : MonoBehaviour, IDamageable
     [SerializeField] private float _splitSpeedMultiplier = 1.5f;
 
     private Rigidbody2D _rigidbody;
-    
+
+    public Rigidbody2D Rigidbody => _rigidbody;
     private AsteroidManager AsteroidManager => GameManager.Instance.AsteroidManager;
 
     private void Awake() => _rigidbody = GetComponent<Rigidbody2D>();
