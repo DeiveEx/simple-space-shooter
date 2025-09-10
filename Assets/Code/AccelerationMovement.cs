@@ -15,7 +15,7 @@ public class AccelerationMovement : MonoBehaviour, IMovementController
     [SerializeField] private MovementSettings _settings;
     
     private Rigidbody2D _rigidbody;
-    private Vector2 _force;
+    private Vector2 _forceDirection;
     
     private void Awake()
     {
@@ -27,8 +27,8 @@ public class AccelerationMovement : MonoBehaviour, IMovementController
 
     private void FixedUpdate()
     {
-        ApplyForce(_force * _settings.Acceleration);
-        _force = Vector2.zero;
+        ApplyForce(_forceDirection * _settings.Acceleration);
+        _forceDirection = Vector2.zero;
     }
 
     public void Setup(MovementSettings settings)
@@ -40,7 +40,7 @@ public class AccelerationMovement : MonoBehaviour, IMovementController
 
     public void Move(Vector2 direction)
     {
-        _force = direction.normalized;
+        _forceDirection = direction.normalized;
     }
 
     private void ApplyForce(Vector2 force)
