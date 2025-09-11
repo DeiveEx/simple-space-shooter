@@ -31,20 +31,38 @@ public class AsteroidManager : MonoBehaviour
     private Camera _camera;
     private Dictionary<AsteroidSize, AsteroidSpec> _asteroidSpecMap;
     private readonly List<AsteroidController> _asteroids = new ();
+    private ShipController _ship;
     
     public IReadOnlyList<AsteroidController> Asteroids => _asteroids;
-    private ShipController Ship => GameManager.Instance.Player.Ship;
+    private IEventBus EventBus => GameManager.Instance.EventBus;
 
     private void Awake()
     {
-        ConfigurePools();
+        _camera = Camera.main;
         _asteroidSpecMap = _asteroidSpecs.ToDictionary(spec => spec.Size, spec => spec);
+        ConfigurePools();
+        
+        EventBus.RegisterHandler<ShipSpawnedEvent>(OnShipSpawned);
+        EventBus.RegisterHandler<GameStartedEvent>(OnGameStarted);
     }
 
-    private void Start()
+    private void OnDestroy()
     {
-        _camera = Camera.main;
+        if(GameManager.Instance == null)
+            return;
         
+        EventBus.UnregisterHandler<ShipSpawnedEvent>(OnShipSpawned);
+        EventBus.UnregisterHandler<GameStartedEvent>(OnGameStarted);
+    }
+    
+    private void OnShipSpawned(ShipSpawnedEvent obj)
+    {
+        _ship = obj.Ship;
+    }
+    
+    private void OnGameStarted(GameStartedEvent obj)
+    {
+        //Spawn some random initial asteroids
         for (int i = 0; i < _initialAmount; i++)
         {
             var spawnPos = GetRandomSpawnPosition();
@@ -106,7 +124,7 @@ public class AsteroidManager : MonoBehaviour
             
             spawnPos = _camera.ScreenToWorldPoint(screenPosition);
         }
-        while(Vector2.Distance(Ship.transform.position, spawnPos) < _minPlayerRange);
+        while(Vector2.Distance(_ship.transform.position, spawnPos) < _minPlayerRange);
 
         return spawnPos;
     }

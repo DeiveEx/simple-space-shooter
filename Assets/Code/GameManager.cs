@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -16,17 +17,24 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        _player.SpawnShip();
         _eventBus = new SimpleEventBus();
+        _player.Health.Died += GameOver;
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
-        _player.Health.Died += GameOver;
+        _player.SpawnShip();
+        
+        //Wait a frame so other classes can execute their start methods
+        yield return null;
+        
+        Debug.Log("Game Started");
+        EventBus.Publish(new GameStartedEvent());
     }
 
     private void GameOver()
     {
         Debug.Log("Game Over");
+        EventBus.Publish(new GameOverEvent());
     }
 }
