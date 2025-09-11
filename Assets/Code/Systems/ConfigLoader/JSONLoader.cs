@@ -1,32 +1,36 @@
 using System.IO;
 using UnityEngine;
 
-public class JsonLoader : IConfigLoader
+namespace Systems.ConfigLoader
 {
-    private string _loadPath;
-
-    public JsonLoader(string loadPath)
+    public class JsonLoader : IConfigLoader
     {
-        _loadPath = loadPath;
-    }
+        private string _loadPath;
 
-    
-    public bool TryLoadConfig<T>(string configName, out T config)
-    {
-        var filePath = ConstructFullPath(configName);
-
-        if (!File.Exists(filePath))
+        public JsonLoader(string loadPath)
         {
-            Debug.LogError("Config file not found at path: " + filePath);
-            config = default;
-            return false;
+            _loadPath = loadPath;
         }
-        
-        var content = File.ReadAllText(filePath);
-        config = JsonUtility.FromJson<T>(content);
-        return true;
+
+
+        public bool TryLoadConfig<T>(string configName, out T config)
+        {
+            var filePath = ConstructFullPath(configName);
+
+            if (!File.Exists(filePath))
+            {
+                Debug.LogError("Config file not found at path: " + filePath);
+                config = default;
+                return false;
+            }
+
+            var content = File.ReadAllText(filePath);
+            config = JsonUtility.FromJson<T>(content);
+            return true;
+        }
+
+        private string ConstructFullPath(string configName) => Path.Combine(_loadPath, $"{configName}.json");
+
     }
 
-    private string ConstructFullPath(string configName) => Path.Combine(_loadPath, $"{configName}.json");
-    
 }

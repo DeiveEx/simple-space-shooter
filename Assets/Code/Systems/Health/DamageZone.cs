@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class DamageZone : MonoBehaviour
+namespace Systems.Health
 {
-    [SerializeField] private int _amount = 1;
-    
-    private void OnTriggerEnter2D(Collider2D other)
+    public class DamageZone : MonoBehaviour
     {
-        var target = other.GetComponents<IDamageable>();
+        [SerializeField] private int _amount = 1;
 
-        foreach (var damageable in target)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            damageable.Damage(_amount);
+            var target = other.GetComponents<IDamageable>();
+
+            foreach (var damageable in target)
+            {
+                damageable.Damage(_amount);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using Systems.ServiceLocator;
 using UnityEngine;
 
 [RequireComponent(typeof(IGunController))]

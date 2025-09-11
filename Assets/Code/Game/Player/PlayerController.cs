@@ -1,3 +1,7 @@
+using Systems.EventBus;
+using Systems.Health;
+using Systems.Score;
+using Systems.ServiceLocator;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour

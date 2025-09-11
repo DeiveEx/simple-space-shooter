@@ -1,1 +1,5 @@
-public interface IEvent {}
+namespace Systems.EventBus
+{
+    public interface IEvent { }
+
+}

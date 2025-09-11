@@ -1,3 +1,7 @@
+using Systems.Health;
+using Systems.Score;
+using Systems.ServiceLocator;
+
 public class HUDModel
 {
     public HealthComponent PlayerHealth;

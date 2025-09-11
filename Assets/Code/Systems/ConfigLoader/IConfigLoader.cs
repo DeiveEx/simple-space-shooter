@@ -1,4 +1,8 @@
-public interface IConfigLoader
+namespace Systems.ConfigLoader
 {
-    bool TryLoadConfig<T>(string configName, out T config);
+    public interface IConfigLoader
+    {
+        bool TryLoadConfig<T>(string configName, out T config);
+    }
+
 }

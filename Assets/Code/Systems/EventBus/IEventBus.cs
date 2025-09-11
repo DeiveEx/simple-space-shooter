@@ -1,8 +1,12 @@
 using System;
 
-public interface IEventBus
+namespace Systems.EventBus
 {
-    public void Publish(IEvent @event);
-    public void RegisterHandler<T>(Action<T> handler) where T : IEvent;
-    public void UnregisterHandler<T>(Action<T> handler) where T : IEvent;
+    public interface IEventBus
+    {
+        public void Publish(IEvent @event);
+        public void RegisterHandler<T>(Action<T> handler) where T : IEvent;
+        public void UnregisterHandler<T>(Action<T> handler) where T : IEvent;
+    }
+
 }

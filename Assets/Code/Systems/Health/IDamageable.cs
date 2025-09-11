@@ -1,4 +1,8 @@
-public interface IDamageable
+namespace Systems.Health
 {
-    void Damage(int amount);
+    public interface IDamageable
+    {
+        void Damage(int amount);
+    }
+
 }

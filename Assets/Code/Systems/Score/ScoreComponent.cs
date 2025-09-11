@@ -1,23 +1,27 @@
 using System;
 using UnityEngine;
 
-public class ScoreComponent : MonoBehaviour
+namespace Systems.Score
 {
-    private int _currentScore;
-
-    public int CurrentScore => _currentScore;
-    
-    public event Action ScoreChanged;
-
-    public void AddScore(int score)
+    public class ScoreComponent : MonoBehaviour
     {
-        _currentScore += score;
-        ScoreChanged?.Invoke();
+        private int _currentScore;
+
+        public int CurrentScore => _currentScore;
+
+        public event Action ScoreChanged;
+
+        public void AddScore(int score)
+        {
+            _currentScore += score;
+            ScoreChanged?.Invoke();
+        }
+
+        public void ResetScore()
+        {
+            _currentScore = 0;
+            ScoreChanged?.Invoke();
+        }
     }
 
-    public void ResetScore()
-    {
-        _currentScore = 0;
-        ScoreChanged?.Invoke();
-    }
 }
