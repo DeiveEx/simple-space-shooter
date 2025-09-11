@@ -7,11 +7,18 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float _lifetime = 1;
 
     private IObjectPool<Projectile> _pool;
-    
-    public void Setup(IObjectPool<Projectile> pool, float lifetime)
+    private IMovementController _movement;
+
+    private void Awake()
+    {
+        _movement = GetComponent<IMovementController>();
+    }
+
+    public void Setup(IObjectPool<Projectile> pool, float lifetime, float speed)
     {
         _pool = pool;
         _lifetime = lifetime;
+        _movement.Setup(speed);
         
         Invoke(nameof(OnLifetimeEnd), _lifetime);
     }

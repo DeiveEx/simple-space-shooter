@@ -21,7 +21,7 @@ public class GunController : MonoBehaviour, IGunController
             () =>
             {
                 var bullet = Instantiate(_bulletPrefab);
-                bullet.Setup(_projectilePool, GameSettings.ProjectileLifetime);
+                bullet.Setup(_projectilePool, GameSettings.ProjectileLifetime, GameSettings.ProjectileSpeed);
                 return bullet;
             },
             p =>

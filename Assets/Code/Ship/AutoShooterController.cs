@@ -76,7 +76,7 @@ public class AutoShooterController : MonoBehaviour
             if (distance > _greedRange)
                 continue;
 
-            var points = 0; //TODO
+            var points = asteroid.Score;
             
             if(points < highestPoints)
                 continue;

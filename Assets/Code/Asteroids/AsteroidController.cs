@@ -11,6 +11,7 @@ public class AsteroidController : MonoBehaviour, IDamageable
     private Rigidbody2D _rigidbody;
 
     public Rigidbody2D Rigidbody => _rigidbody;
+    public int Score => _score;
     private AsteroidManager AsteroidManager => SimpleServiceLocator.GetService<AsteroidManager>();
     private IEventBus EventBus => SimpleServiceLocator.GetService<IEventBus>();
 

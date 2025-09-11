@@ -7,6 +7,8 @@
     "ShipHealth" : 1,
     "ShipSpeed" : 3,
     
-    "FireRate" : 1,
-    "ProjectileLifetime" : 1
+    "GunFireRate" : 1,
+    
+    "ProjectileLifetime" : 1,
+    "ProjectileSpeed" : 5
 }

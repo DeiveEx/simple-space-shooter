@@ -15,6 +15,7 @@ public class GameSettings
     public int ShipSpeed = 3;
     
     //Gun
-    public int FireRate = 2;
+    public int GunFireRate = 2;
     public float ProjectileLifetime = 1;
+    public float ProjectileSpeed = 1;
 }
