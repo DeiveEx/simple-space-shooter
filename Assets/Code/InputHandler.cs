@@ -1,16 +1,16 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(IMovementController))]
 public class InputHandler : MonoBehaviour
 {
     private InputSystem_Actions _inputActions;
-    private IMovementController _movement;
     private Vector2 _moveDirection;
+    
+    private ShipController _shipController;
     
     private void Awake()
     {
-        _movement = GetComponent<IMovementController>();
+        _shipController = GetComponent<ShipController>();
         
         _inputActions = new InputSystem_Actions();
         RegisterInputEvents();
@@ -19,7 +19,15 @@ public class InputHandler : MonoBehaviour
 
     private void Update()
     {
-        _movement.SetDirection(_moveDirection);
+        if(_shipController == null)
+            return;
+        
+        _shipController.Movement.SetDirection(_moveDirection);
+    }
+
+    public void Setup(ShipController shipController)
+    {
+        _shipController = shipController;
     }
 
     private void RegisterInputEvents()

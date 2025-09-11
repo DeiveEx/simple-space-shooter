@@ -1,11 +1,11 @@
 public class HUDModel
 {
     public HealthComponent PlayerHealth;
-    public ScoreController ScoreController;
+    public ScoreComponent ScoreController;
 
     public HUDModel()
     {
-        PlayerHealth = GameManager.Instance.PlayerShip.GetComponent<HealthComponent>();
-        ScoreController = GameManager.Instance.PlayerShip.GetComponent<ScoreController>();
+        PlayerHealth = GameManager.Instance.Player.Health;
+        ScoreController = GameManager.Instance.Player.Score;
     }
 }

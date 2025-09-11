@@ -1,40 +1,93 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Pool;
 using Random = UnityEngine.Random;
+
+public enum AsteroidSize
+{
+    None,
+    Small,
+    Medium,
+    Large,
+}
 
 public class AsteroidManager : MonoBehaviour
 {
-    [SerializeField] private AsteroidController _asteroidPrefab;
+    [Serializable]
+    private class AsteroidSpec
+    {
+        public AsteroidSize Size;
+        public AsteroidController Prefab;
+        public float Speed;
+        public IObjectPool<AsteroidController> Pool;
+    }
+    
+    [SerializeField] private AsteroidSpec[] _asteroidSpecs;
     [SerializeField] private int _initialAmount = 5;
-    [SerializeField] private float _initialForce = 5;
     [SerializeField] private float _minPlayerRange = 5;
 
     private Camera _camera;
+    private Dictionary<AsteroidSize, AsteroidSpec> _asteroidSpecMap;
     private readonly List<AsteroidController> _asteroids = new ();
     
     public IReadOnlyList<AsteroidController> Asteroids => _asteroids;
-    private GameObject Player => GameManager.Instance.PlayerShip;
-    
+    private ShipController Ship => GameManager.Instance.Player.Ship;
+
     private void Awake()
+    {
+        ConfigurePools();
+        _asteroidSpecMap = _asteroidSpecs.ToDictionary(spec => spec.Size, spec => spec);
+    }
+
+    private void Start()
     {
         _camera = Camera.main;
         
         for (int i = 0; i < _initialAmount; i++)
         {
             var spawnPos = GetRandomSpawnPosition();
-            var randomDir = Random.insideUnitCircle.normalized * _initialForce;
-            SpawnAsteroid(_asteroidPrefab, spawnPos, randomDir);
+            var randomDir = Random.insideUnitCircle.normalized;
+            SpawnAsteroid(AsteroidSize.Large, spawnPos, randomDir);
         }
     }
 
-    public void SpawnAsteroid(AsteroidController asteroidPrefab, Vector3 spawnPos, Vector2 force)
+    private void ConfigurePools()
+    {
+        foreach (var spec in _asteroidSpecs)
+        {
+            spec.Pool = new ObjectPool<AsteroidController>(
+                () =>
+                {
+                    var instance = Instantiate(spec.Prefab, transform);
+                    var instanceHealth = instance.GetComponent<HealthComponent>();
+
+                    instanceHealth.Died += () => spec.Pool.Release(instance);
+                    
+                    return instance;
+                },
+                asteroid =>
+                {
+                    asteroid.gameObject.SetActive(true);
+                    _asteroids.Add(asteroid);
+                },
+                asteroid =>
+                {
+                    asteroid.gameObject.SetActive(false);
+                    _asteroids.Remove(asteroid);
+                }
+            );
+        }
+    }
+
+    public void SpawnAsteroid(AsteroidSize size, Vector3 spawnPos, Vector2 direction)
     { 
-        //TODO user Object pool for each asteroid type?
-        var asteroid = Instantiate(asteroidPrefab, spawnPos, Quaternion.identity);
-        
-        //Add a force in a random direction
-        var rb = asteroid.GetComponent<Rigidbody2D>();
-        rb.AddForce(force, ForceMode2D.Impulse);
+        var spec = _asteroidSpecMap[size];
+
+        var asteroid = spec.Pool.Get();
+        asteroid.transform.SetPositionAndRotation(spawnPos, Quaternion.identity);
+        asteroid.Rigidbody.AddForce(direction * spec.Speed, ForceMode2D.Impulse);
     }
 
     private Vector3 GetRandomSpawnPosition()
@@ -53,11 +106,8 @@ public class AsteroidManager : MonoBehaviour
             
             spawnPos = _camera.ScreenToWorldPoint(screenPosition);
         }
-        while(Vector2.Distance(Player.transform.position, spawnPos) < _minPlayerRange);
+        while(Vector2.Distance(Ship.transform.position, spawnPos) < _minPlayerRange);
 
         return spawnPos;
     }
-    
-    public void RegisterAsteroid(AsteroidController asteroid) => _asteroids.Add(asteroid);
-    public void UnregisterAsteroid(AsteroidController asteroid) => _asteroids.Remove(asteroid);
 }

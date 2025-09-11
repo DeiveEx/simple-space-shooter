@@ -21,13 +21,12 @@ public class HealthComponent : MonoBehaviour, IDamageable
         _currentHealth -= amount;
         HealthChanged?.Invoke();
 
-        if (_initialHealth <= 0)
+        if (_currentHealth <= 0)
             Die();
     }
 
     private void Die()
     {
-        Debug.Log("Died");
         Died?.Invoke();
     }
 

@@ -3,11 +3,9 @@ using Random = UnityEngine.Random;
 
 public class AsteroidController : MonoBehaviour, IDamageable
 {
-    //TODO move this data to a Scriptable Object?
-    [SerializeField] private AsteroidController _splitAsteroidPrefab;
+    [SerializeField] private AsteroidSize _splitSize;
     [SerializeField] private int _splitAmount = 2;
     [SerializeField] private float _splitAngleOffset = 30f;
-    [SerializeField] private float _splitSpeedMultiplier = 1.5f;
     [SerializeField] private int _score;
 
     private Rigidbody2D _rigidbody;
@@ -17,19 +15,16 @@ public class AsteroidController : MonoBehaviour, IDamageable
     private AsteroidManager AsteroidManager => GameManager.Instance.AsteroidManager;
 
     private void Awake() => _rigidbody = GetComponent<Rigidbody2D>();
-    private void OnEnable() => AsteroidManager.RegisterAsteroid(this);
-    private void OnDisable() => AsteroidManager.UnregisterAsteroid(this);
 
     public void Damage(int amount)
     {
+        GameManager.Instance.Player.Score.AddScore(_score);
         Split();
-        GameManager.Instance.PlayerShip.GetComponent<ScoreController>().AddScore(_score);
-        Destroy(gameObject);
     }
 
     private void Split()
     {
-        if(_splitAsteroidPrefab == null)
+        if(_splitSize == AsteroidSize.None)
             return;
         
         //Create the split pieces
@@ -39,7 +34,7 @@ public class AsteroidController : MonoBehaviour, IDamageable
             var velocity = _rigidbody.linearVelocity;
             
             velocity = Quaternion.Euler(0, 0, Random.Range(-_splitAngleOffset, _splitAngleOffset)) * velocity;
-            AsteroidManager.SpawnAsteroid(_splitAsteroidPrefab, transform.position, velocity * _splitSpeedMultiplier);
+            AsteroidManager.SpawnAsteroid(_splitSize, transform.position, velocity);
         }
     }
 }

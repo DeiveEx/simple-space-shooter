@@ -65,6 +65,10 @@ PrefabInstance:
       value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 6065085674133172728, guid: 1b0251b59c6fca14284653e839a7e0ee, type: 3}
+      propertyPath: _splitSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6065085674133172728, guid: 1b0251b59c6fca14284653e839a7e0ee, type: 3}
       propertyPath: _splitAsteroidPrefab
       value: 
       objectReference: {fileID: 7743189887331877367, guid: 5e25a17fd3835d24a986c1656bc59ee0, type: 3}

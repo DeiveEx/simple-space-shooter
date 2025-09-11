@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class ScoreController : MonoBehaviour
+public class ScoreComponent : MonoBehaviour
 {
     private int _currentScore;
 

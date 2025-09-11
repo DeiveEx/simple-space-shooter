@@ -132,10 +132,10 @@ GameObject:
   - component: {fileID: 3886920278875091472}
   - component: {fileID: 1422494193325024226}
   - component: {fileID: 930641121542243195}
-  - component: {fileID: 813537212959414308}
   - component: {fileID: 92429839623061359}
   - component: {fileID: 3293723790026018786}
   - component: {fileID: 4156410487607621208}
+  - component: {fileID: 199697405709574344}
   m_Layer: 8
   m_Name: Ship
   m_TagString: Untagged
@@ -251,18 +251,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b98f30bf63af154b80eaea2a6cc6477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &813537212959414308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6863642571446140081}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 651c2bdf0f20aa3438410d9a22506e5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &92429839623061359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,7 +263,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eefc6bcba133ac48a4796c54c743c3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 3
+  _initialHealth: 1
 --- !u!114 &3293723790026018786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,3 +295,15 @@ MonoBehaviour:
   _gunHolder: {fileID: 1528283475017244989}
   _dangerRange: 2
   _greedRange: 5
+--- !u!114 &199697405709574344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6863642571446140081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ede9828551302f44fb23130c9de3a460, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

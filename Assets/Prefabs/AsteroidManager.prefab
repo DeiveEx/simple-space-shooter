@@ -44,7 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a346c68ab4f4998449b68a0c1d7fb6d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _asteroidPrefab: {fileID: 6065085674133172728, guid: 1b0251b59c6fca14284653e839a7e0ee, type: 3}
+  _asteroidSpecs:
+  - Size: 1
+    Prefab: {fileID: 7743189887331877367, guid: 5e25a17fd3835d24a986c1656bc59ee0, type: 3}
+    Speed: 1.7
+  - Size: 2
+    Prefab: {fileID: 7743189887331877367, guid: 862a1c694fa45664c9b279fb1d6a3282, type: 3}
+    Speed: 1.25
+  - Size: 3
+    Prefab: {fileID: 6065085674133172728, guid: 1b0251b59c6fca14284653e839a7e0ee, type: 3}
+    Speed: 1
   _initialAmount: 5
-  _initialForce: 3
   _minPlayerRange: 5
