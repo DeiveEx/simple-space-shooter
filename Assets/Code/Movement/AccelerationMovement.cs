@@ -11,7 +11,6 @@ public class AccelerationMovement : MonoBehaviour, IMovementController
         public float Drag;
     }
     
-    [SerializeField] private bool _autoSetup;
     [SerializeField] private MovementSettings _settings;
     
     private Rigidbody2D _rigidbody;
@@ -22,9 +21,6 @@ public class AccelerationMovement : MonoBehaviour, IMovementController
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        
-        if(_autoSetup)
-            Setup(_settings);
     }
 
     private void FixedUpdate()
@@ -36,10 +32,14 @@ public class AccelerationMovement : MonoBehaviour, IMovementController
     public void Setup(MovementSettings settings)
     {
         _settings = settings;
-        
         _rigidbody.linearDamping = _settings.Drag;
     }
-    
+
+    public void Setup(float speed)
+    {
+        _settings.MaxSpeed = speed;
+    }
+
     public void SetDirection(Vector2 direction)
     {
         _forceDirection = direction.normalized;

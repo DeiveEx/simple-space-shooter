@@ -1,0 +1,10 @@
+{
+    "RespawnDelay" : 1,
+    "InitialAsteroidAmount" : 15,
+    
+    "PlayerHealth" : 3,
+    
+    "ShipHealth" : 1,
+    "ShipSpeed" : 3,
+    "ShipFireRate" : 1
+}
