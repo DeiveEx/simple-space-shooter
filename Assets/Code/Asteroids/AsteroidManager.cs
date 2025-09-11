@@ -75,7 +75,13 @@ public class AsteroidManager : MonoBehaviour
                     var instance = Instantiate(spec.Prefab, transform);
                     var instanceHealth = instance.GetComponent<HealthComponent>();
 
-                    instanceHealth.Died += () => spec.Pool.Release(instance);
+                    instanceHealth.Died += () =>
+                    {
+                        if(!instance.gameObject.activeSelf)
+                            return;
+                        
+                        spec.Pool.Release(instance);
+                    };
                     
                     return instance;
                 },

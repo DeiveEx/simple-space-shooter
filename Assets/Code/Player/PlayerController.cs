@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDestroy()
     {
+        _inputActions.Disable();
         EventBus?.UnregisterHandler<AsteroidDestroyedEvent>(OnAsteroidDestroyed);
     }
     
