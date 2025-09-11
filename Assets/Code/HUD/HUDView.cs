@@ -1,10 +1,16 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HUDView : MonoBehaviour
 {
     [SerializeField] private TMP_Text _pointsText;
     [SerializeField] private TMP_Text _healthText;
+    [SerializeField] private Button _restartButton;
+    [SerializeField] private GameObject _gameObjectPanel;
+
+    public Button RestartButton => _restartButton;
+    public GameObject GameObjectPanel => _gameObjectPanel;
 
     public void UpdatePoints(int points)
     {

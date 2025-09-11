@@ -278,7 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletPrefab: {fileID: 8839656655434221548, guid: ee9208da3154e97498bf183833293cbb, type: 3}
   _gunBarrel: {fileID: 7788225471320160690}
-  _fireRate: 3
+  _fireRate: 2
 --- !u!114 &4156410487607621208
 MonoBehaviour:
   m_ObjectHideFlags: 0

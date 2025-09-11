@@ -11,15 +11,15 @@ public class AsteroidController : MonoBehaviour, IDamageable
     private Rigidbody2D _rigidbody;
 
     public Rigidbody2D Rigidbody => _rigidbody;
-    public int Score => _score;
     private AsteroidManager AsteroidManager => GameManager.Instance.AsteroidManager;
+    private IEventBus EventBus => GameManager.Instance.EventBus;
 
     private void Awake() => _rigidbody = GetComponent<Rigidbody2D>();
 
     public void Damage(int amount)
     {
-        GameManager.Instance.Player.Score.AddScore(_score);
         Split();
+        EventBus.Publish(new AsteroidDestroyedEvent() { Score = _score });
     }
 
     private void Split()
