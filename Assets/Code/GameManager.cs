@@ -4,36 +4,24 @@ using UnityEngine;
 [DefaultExecutionOrder(-999)]
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
-    
     [SerializeField] private AsteroidManager _asteroidManager;
     [SerializeField] private PlayerController _player;
-    [SerializeField] private GameSettings _gameSettings;
     [SerializeField] private AnimationCurve _difficultyCurve = AnimationCurve.Linear(0, 0, 1, 1);
 
-    private IEventBus _eventBus;
-    private IConfigLoader _configLoader;
     private int _currentLevel;
     
-    public AsteroidManager AsteroidManager => _asteroidManager;
-    public PlayerController Player => _player;
-    public IEventBus EventBus => _eventBus;
-    public GameSettings GameSettings => _gameSettings;
+    private IEventBus EventBus => SimpleServiceLocator.GetService<IEventBus>();
+    private GameSettings GameSettings => SimpleServiceLocator.GetService<GameSettings>();
 
     private void Awake()
     {
-        Instance = this;
-        _eventBus = new SimpleEventBus();
-        _configLoader = new JsonLoader(Application.streamingAssetsPath);
+        RegisterServices();
         
         _player.Health.HealthChanged += OnPlayerHealthChanged;
         _player.Health.Died += GameOver;
         
         //Since the GameManager owns the EventBus, we don't need to unregister
         EventBus.RegisterHandler<AsteroidsClearedEvent>(OnAsteroidsDestroyed);
-        
-        if(!_configLoader.TryLoadConfig("GameSettings", out _gameSettings))
-            _gameSettings = new GameSettings();
     }
 
     private IEnumerator Start()
@@ -47,10 +35,30 @@ public class GameManager : MonoBehaviour
         StartGame();
     }
 
+    private void OnDestroy()
+    {
+        SimpleServiceLocator.DisposeServices();
+    }
+
+    private void RegisterServices()
+    {
+        SimpleServiceLocator.RegisterService<IEventBus>(new SimpleEventBus());
+        SimpleServiceLocator.RegisterService(_asteroidManager);
+        SimpleServiceLocator.RegisterService(_player);
+        
+        var configLoader = new JsonLoader(Application.streamingAssetsPath);
+        SimpleServiceLocator.RegisterService<IConfigLoader>(configLoader);
+
+        if (!configLoader.TryLoadConfig<GameSettings>("GameSettings", out var gameSettings))
+            gameSettings = new();
+        
+        SimpleServiceLocator.RegisterService(gameSettings);
+    }
+    
     private void StartGame()
     {
         _player.SpawnShip();
-        AsteroidManager.SpawnRandomAsteroids(_gameSettings.InitialAsteroidAmount);
+        _asteroidManager.SpawnRandomAsteroids(GameSettings.InitialAsteroidAmount);
         
         Debug.Log("Game Started");
         EventBus.Publish(new GameStartedEvent());
@@ -72,7 +80,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator WaitAndSpawnShip()
     {
-        yield return new WaitForSeconds(_gameSettings.RespawnDelay);
+        yield return new WaitForSeconds(GameSettings.RespawnDelay);
         _player.SpawnShip();
     }
     
@@ -80,6 +88,6 @@ public class GameManager : MonoBehaviour
     {
         _currentLevel++;
         int levelAmount = Mathf.FloorToInt(_difficultyCurve.Evaluate(_currentLevel));
-        AsteroidManager.SpawnRandomAsteroids(_gameSettings.InitialAsteroidAmount + levelAmount);
+        _asteroidManager.SpawnRandomAsteroids(GameSettings.InitialAsteroidAmount + levelAmount);
     }
 }

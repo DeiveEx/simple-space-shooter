@@ -11,8 +11,8 @@ public class AsteroidController : MonoBehaviour, IDamageable
     private Rigidbody2D _rigidbody;
 
     public Rigidbody2D Rigidbody => _rigidbody;
-    private AsteroidManager AsteroidManager => GameManager.Instance.AsteroidManager;
-    private IEventBus EventBus => GameManager.Instance.EventBus;
+    private AsteroidManager AsteroidManager => SimpleServiceLocator.GetService<AsteroidManager>();
+    private IEventBus EventBus => SimpleServiceLocator.GetService<IEventBus>();
 
     private void Awake() => _rigidbody = GetComponent<Rigidbody2D>();
 
