@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public ShipController Ship => _shipController;
     public HealthComponent Health => _health;
     public ScoreComponent Score => _score;
+    private IEventBus EventBus => GameManager.Instance.EventBus;
     
     public void SpawnShip()
     {
@@ -19,5 +20,7 @@ public class PlayerController : MonoBehaviour
         _shipController.Health.Died += () => Health.Damage(1);
         
         _inputHandler.Setup(_shipController);
+
+        EventBus.Publish(new ShipSpawnedEvent() { Ship = _shipController });
     }
 }
