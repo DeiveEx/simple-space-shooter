@@ -1,6 +1,7 @@
 {
     "RespawnDelay" : 1,
-    "InitialAsteroidAmount" : 15,
+    "InitialAsteroidAmount" : 10,
+    
     
     "PlayerHealth" : 3,
     
