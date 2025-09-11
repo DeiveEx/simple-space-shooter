@@ -4,10 +4,9 @@
     
     "PlayerHealth" : 3,
     
-    "ShipHealth" : 1,
-    "ShipSpeed" : 3,
+    "ShipSpeed" : 5,
     
-    "GunFireRate" : 1,
+    "GunFireRate" : 3,
     
     "ProjectileLifetime" : 1,
     "ProjectileSpeed" : 5

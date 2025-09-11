@@ -15,7 +15,7 @@ public class HealthComponent : MonoBehaviour, IDamageable
     public event Action HealthChanged;
     public event Action Died;
 
-    private void Awake()
+    private void OnEnable()
     {
         if(_autoSetup)
             Setup(_initialHealth);
@@ -40,10 +40,6 @@ public class HealthComponent : MonoBehaviour, IDamageable
             return;
 
         _currentHealth -= amount;
-        
-        if(_currentHealth < 0)
-            Debug.LogError("why");
-        
         HealthChanged?.Invoke();
 
         if (_currentHealth <= 0)
