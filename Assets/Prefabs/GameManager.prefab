@@ -48,8 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _asteroidManager: {fileID: 7910901744969722976}
   _player: {fileID: 729059599903522148}
-  _respawnDelay: 1
-  _initialAsteroidAmount: 5
+  _shipPrefab: {fileID: 199697405709574344, guid: 078118e641647b2409940cde0f3fc472, type: 3}
   _difficultyCurve:
     serializedVersion: 2
     m_Curve:

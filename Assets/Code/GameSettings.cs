@@ -13,5 +13,8 @@ public class GameSettings
     //Ship
     public int ShipHealth = 3;
     public int ShipSpeed = 3;
-    public int ShipFireRate = 2;
+    
+    //Gun
+    public int FireRate = 2;
+    public float ProjectileLifetime = 1;
 }

@@ -27,11 +27,11 @@ public class ShipController : MonoBehaviour
     {
         _health.Setup(GameSettings.ShipHealth);
         _movement.Setup(GameSettings.ShipSpeed);
-        _gun.Setup(GameSettings.ShipFireRate);
+        _gun.Setup(GameSettings.FireRate);
     }
 
     private void OnDied()
     {
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

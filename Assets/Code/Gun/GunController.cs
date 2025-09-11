@@ -8,10 +8,12 @@ public class GunController : MonoBehaviour, IGunController
     [SerializeField] private float _fireRate = 1;
 
     private IObjectPool<Projectile> _projectilePool;
+    private float _projectileLifetime;
     private float _lastShootTime;
 
     public bool CanShoot => Time.time - _lastShootTime > 1f / _fireRate;
     public Projectile ProjectilePrefab => _bulletPrefab;
+    private GameSettings GameSettings => SimpleServiceLocator.GetService<GameSettings>();
 
     private void Awake()
     {
@@ -19,13 +21,7 @@ public class GunController : MonoBehaviour, IGunController
             () =>
             {
                 var bullet = Instantiate(_bulletPrefab);
-                bullet.Setup(() =>
-                {
-                    if(!bullet.gameObject.activeSelf)
-                        return;
-                    
-                    _projectilePool.Release(bullet);
-                });
+                bullet.Setup(_projectilePool, GameSettings.ProjectileLifetime);
                 return bullet;
             },
             p =>

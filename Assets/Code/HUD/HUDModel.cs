@@ -7,7 +7,7 @@ public class HUDModel
     {
         var player = SimpleServiceLocator.GetService<PlayerController>();
         
-        PlayerHealth = player.Health;
+        PlayerHealth = player.Lives;
         ScoreController = player.Score;
     }
 }

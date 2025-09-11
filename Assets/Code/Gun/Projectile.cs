@@ -1,24 +1,28 @@
-using System;
 using UnityEngine;
+using UnityEngine.Pool;
 
 [RequireComponent(typeof(IMovementController))]
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private float _lifetime = 1;
 
-    private Action _onLifetimeEnd;
-
-    private static int _counter;
+    private IObjectPool<Projectile> _pool;
     
-    public void Setup(Action onLifetimeEnd) => _onLifetimeEnd = onLifetimeEnd;
-    private void OnEnable()
+    public void Setup(IObjectPool<Projectile> pool, float lifetime)
     {
-        _counter++;
-        gameObject.name = "Projectile " + _counter;
+        _pool = pool;
+        _lifetime = lifetime;
+        
         Invoke(nameof(OnLifetimeEnd), _lifetime);
     }
 
-    private void OnLifetimeEnd() => _onLifetimeEnd?.Invoke();
+    private void OnLifetimeEnd()
+    {
+        if(!gameObject.activeSelf)
+            return;
+        
+        _pool.Release(this);
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
