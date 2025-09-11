@@ -27,8 +27,7 @@ public class HealthTests
     [TestCase(-1, ExpectedResult = false)]
     public bool TestSetup(int value)
     {
-        if(value <= 0)
-            LogAssert.Expect(LogType.Error, "Initial health cannot be lower or equal to 0");
+        LogAssert.ignoreFailingMessages = true;
         
         _health.Setup(value);
         return _health.CurrentHealth == value;

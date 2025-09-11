@@ -31,7 +31,7 @@ public class EventBusTests
         _eventBus.RegisterHandler<TestEvent>(DummyHandler);
         _eventBus.UnregisterHandler<TestEvent>(DummyHandler);
         Assert.That(_eventBus._handlers.ContainsKey(typeof(TestEvent)), Is.False);
-        Assert.That(_eventBus._handlers.Count, Is.False);
+        Assert.That(_eventBus._handlers.Count, Is.EqualTo(0));
     }
     
     [Test]
