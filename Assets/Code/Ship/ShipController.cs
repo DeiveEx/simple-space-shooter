@@ -12,6 +12,7 @@ public class ShipController : MonoBehaviour
     public IMovementController Movement => _movement;
     public IGunController Gun => _gun;
     public HealthComponent Health => _health;
+    private GameSettings GameSettings => GameManager.Instance.GameSettings;
 
     private void Awake()
     {
@@ -20,8 +21,15 @@ public class ShipController : MonoBehaviour
         _health = GetComponent<HealthComponent>();
     }
 
+    public void Setup()
+    {
+        _health.Setup(GameSettings.ShipHealth);
+        _movement.Setup(GameSettings.ShipSpeed);
+        _gun.Setup(GameSettings.ShipFireRate);
+    }
+
     public void Die()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

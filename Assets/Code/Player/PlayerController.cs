@@ -13,15 +13,24 @@ public class PlayerController : MonoBehaviour
     public HealthComponent Health => _health;
     public ScoreComponent Score => _score;
     private IEventBus EventBus => GameManager.Instance.EventBus;
+    private GameSettings GameSettings => GameManager.Instance.GameSettings;
 
     private void Awake()
     {
+        _shipController = Instantiate(_shipPrefab);
+        _shipController.gameObject.SetActive(false);
+        
         EventBus.RegisterHandler<AsteroidDestroyedEvent>(OnAsteroidDestroyed);
     }
 
     private void OnDestroy()
     {
         EventBus.UnregisterHandler<AsteroidDestroyedEvent>(OnAsteroidDestroyed);
+    }
+    
+    public void Setup()
+    {
+        _health.Setup(GameSettings.PlayerHealth);
     }
 
     private void OnAsteroidDestroyed(AsteroidDestroyedEvent obj)
@@ -31,7 +40,9 @@ public class PlayerController : MonoBehaviour
 
     public void SpawnShip()
     {
-        _shipController = Instantiate(_shipPrefab);
+        _shipController.gameObject.SetActive(true);
+        _shipController.Setup();
+        _shipController.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
         _shipController.Health.Died += OnShipDied;
         
         _inputHandler.Setup(_shipController);
@@ -41,11 +52,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnShipDied()
     {
-        if(_shipController == null)
-            return;
-        
         Health.Damage(1);
         _shipController.Die();
-        _shipController = null;
     }
 }

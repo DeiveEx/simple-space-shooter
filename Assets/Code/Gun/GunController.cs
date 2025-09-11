@@ -41,6 +41,11 @@ public class GunController : MonoBehaviour, IGunController
             });
     }
 
+    public void Setup(float fireRate)
+    {
+        _fireRate = fireRate;
+    }
+
     public void Shoot()
     {
         if(!CanShoot)

@@ -14,6 +14,11 @@ public class ForwardMovement : MonoBehaviour, IMovementController
         _moveDirection = _initialDirection;
     }
 
+    public void Setup(float speed)
+    {
+        _speed = speed;
+    }
+
     public void SetDirection(Vector2 direction)
     {
         _moveDirection = direction.normalized;

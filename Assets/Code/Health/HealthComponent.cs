@@ -13,8 +13,9 @@ public class HealthComponent : MonoBehaviour, IDamageable
     public event Action HealthChanged;
     public event Action Died;
 
-    private void Awake()
+    public void Setup(int health)
     {
+        _initialHealth = health;
         _currentHealth = _initialHealth;
     }
 
