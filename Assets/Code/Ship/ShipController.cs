@@ -19,6 +19,8 @@ public class ShipController : MonoBehaviour
         _movement = GetComponent<IMovementController>();
         _gun = GetComponent<IGunController>();
         _health = GetComponent<HealthComponent>();
+
+        _health.Died += OnDied;
     }
 
     public void Setup()
@@ -28,7 +30,7 @@ public class ShipController : MonoBehaviour
         _gun.Setup(GameSettings.ShipFireRate);
     }
 
-    public void Die()
+    private void OnDied()
     {
         gameObject.SetActive(false);
     }

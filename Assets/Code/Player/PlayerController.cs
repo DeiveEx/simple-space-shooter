@@ -2,23 +2,22 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private ShipController _shipPrefab;
-    [SerializeField] private InputHandler _inputHandler;
-    [SerializeField] private HealthComponent _health;
+    [SerializeField] private HealthComponent _lives;
     [SerializeField] private ScoreComponent _score;
     
     private ShipController _shipController;
+    private InputSystem_Actions _inputActions;
 
     public ShipController Ship => _shipController;
-    public HealthComponent Health => _health;
+    public HealthComponent Lives => _lives;
     public ScoreComponent Score => _score;
     private IEventBus EventBus => SimpleServiceLocator.GetService<IEventBus>();
     private GameSettings GameSettings => SimpleServiceLocator.GetService<GameSettings>();
 
     private void Awake()
     {
-        _shipController = Instantiate(_shipPrefab);
-        _shipController.gameObject.SetActive(false);
+        _inputActions = new InputSystem_Actions();
+        _inputActions.Enable();
         
         EventBus.RegisterHandler<AsteroidDestroyedEvent>(OnAsteroidDestroyed);
     }
@@ -30,7 +29,7 @@ public class PlayerController : MonoBehaviour
     
     public void Setup()
     {
-        _health.Setup(GameSettings.PlayerHealth);
+        _lives.Setup(GameSettings.PlayerHealth);
     }
 
     private void OnAsteroidDestroyed(AsteroidDestroyedEvent obj)
@@ -38,21 +37,15 @@ public class PlayerController : MonoBehaviour
         Score.AddScore(obj.Score);
     }
 
-    public void SpawnShip()
+    public void PossessShip(ShipController ship)
     {
-        _shipController.gameObject.SetActive(true);
-        _shipController.Setup();
-        _shipController.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-        _shipController.Health.Died += OnShipDied;
-        
-        _inputHandler.Setup(_shipController);
-
-        EventBus.Publish(new ShipSpawnedEvent() { Ship = _shipController });
+        ship.Health.Died += OnShipDied;
+        ship.GetComponent<IInputHandler>().Setup(_inputActions);
     }
 
     private void OnShipDied()
     {
-        Health.Damage(1);
-        _shipController.Die();
+        //When the ship dies, the player loses a life
+        Lives.Damage(1);
     }
 }
