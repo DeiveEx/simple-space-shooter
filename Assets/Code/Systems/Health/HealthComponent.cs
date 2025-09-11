@@ -38,13 +38,17 @@ namespace Systems.Health
 
         public void Damage(int amount)
         {
-            if (_isDead)
+            if (_isDead || amount <= 0)
                 return;
 
             _currentHealth -= amount;
+            
+            if (_currentHealth < 0)
+                _currentHealth = 0;
+            
             HealthChanged?.Invoke();
 
-            if (_currentHealth <= 0)
+            if (_currentHealth == 0)
                 Die();
         }
 

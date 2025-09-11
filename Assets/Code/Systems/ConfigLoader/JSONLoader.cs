@@ -30,7 +30,5 @@ namespace Systems.ConfigLoader
         }
 
         private string ConstructFullPath(string configName) => Path.Combine(_loadPath, $"{configName}.json");
-
     }
-
 }
