@@ -12,8 +12,8 @@ public class PlayerController : MonoBehaviour
     public ShipController Ship => _shipController;
     public HealthComponent Health => _health;
     public ScoreComponent Score => _score;
-    private IEventBus EventBus => GameManager.Instance.EventBus;
-    private GameSettings GameSettings => GameManager.Instance.GameSettings;
+    private IEventBus EventBus => SimpleServiceLocator.GetService<IEventBus>();
+    private GameSettings GameSettings => SimpleServiceLocator.GetService<GameSettings>();
 
     private void Awake()
     {
@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnDestroy()
     {
-        EventBus.UnregisterHandler<AsteroidDestroyedEvent>(OnAsteroidDestroyed);
+        EventBus?.UnregisterHandler<AsteroidDestroyedEvent>(OnAsteroidDestroyed);
     }
     
     public void Setup()

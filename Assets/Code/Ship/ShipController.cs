@@ -12,7 +12,7 @@ public class ShipController : MonoBehaviour
     public IMovementController Movement => _movement;
     public IGunController Gun => _gun;
     public HealthComponent Health => _health;
-    private GameSettings GameSettings => GameManager.Instance.GameSettings;
+    private GameSettings GameSettings => SimpleServiceLocator.GetService<GameSettings>();
 
     private void Awake()
     {

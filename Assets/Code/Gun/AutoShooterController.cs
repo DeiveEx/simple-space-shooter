@@ -12,7 +12,7 @@ public class AutoShooterController : MonoBehaviour
     private IGunController _gun;
     private float _bulletSpeed;
 
-    private AsteroidManager AsteroidManager => GameManager.Instance.AsteroidManager;
+    private AsteroidManager AsteroidManager => SimpleServiceLocator.GetService<AsteroidManager>();
 
     private void Awake()
     {

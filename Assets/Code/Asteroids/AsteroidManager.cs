@@ -33,7 +33,7 @@ public class AsteroidManager : MonoBehaviour
     private ShipController _ship;
     
     public IReadOnlyList<AsteroidController> Asteroids => _asteroids;
-    private IEventBus EventBus => GameManager.Instance.EventBus;
+    private IEventBus EventBus => SimpleServiceLocator.GetService<IEventBus>();
 
     private void Awake()
     {
@@ -46,10 +46,7 @@ public class AsteroidManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(GameManager.Instance == null)
-            return;
-        
-        EventBus.UnregisterHandler<ShipSpawnedEvent>(OnShipSpawned);
+        EventBus?.UnregisterHandler<ShipSpawnedEvent>(OnShipSpawned);
     }
     
     private void OnShipSpawned(ShipSpawnedEvent obj)

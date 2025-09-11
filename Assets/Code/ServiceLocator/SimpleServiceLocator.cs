@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class SimpleServiceLocator
 {
@@ -22,15 +23,13 @@ public static class SimpleServiceLocator
     public static T GetService<T>()
     {
         var type = typeof(T);
+
+        if (Services.TryGetValue(type, out var service))
+            return (T) service;
         
-        if (!Services.TryGetValue(type, out var service))
-            throw new Exception($"Service of type {type} is not registered!");
-        
-        return (T) service;
+        Debug.LogError($"Service of type {type} is not registered!");
+        return default;
     }
 
-    public static void DisposeServices()
-    {
-        Services.Clear();
-    }
+    public static void DisposeServices() => Services.Clear();
 }

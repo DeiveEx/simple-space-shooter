@@ -5,7 +5,9 @@ public class HUDModel
 
     public HUDModel()
     {
-        PlayerHealth = GameManager.Instance.Player.Health;
-        ScoreController = GameManager.Instance.Player.Score;
+        var player = SimpleServiceLocator.GetService<PlayerController>();
+        
+        PlayerHealth = player.Health;
+        ScoreController = player.Score;
     }
 }
