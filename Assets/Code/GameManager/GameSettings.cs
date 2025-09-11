@@ -11,7 +11,6 @@ public class GameSettings
     public int PlayerHealth = 3;
     
     //Ship
-    public int ShipHealth = 3;
     public int ShipSpeed = 3;
     
     //Gun

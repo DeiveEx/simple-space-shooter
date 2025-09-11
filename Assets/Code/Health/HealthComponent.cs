@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class HealthComponent : MonoBehaviour, IDamageable
 {
+    [SerializeField] private bool _autoSetup;
     [SerializeField] private int _initialHealth = 3;
 
     private int _currentHealth;
@@ -13,6 +14,12 @@ public class HealthComponent : MonoBehaviour, IDamageable
     
     public event Action HealthChanged;
     public event Action Died;
+
+    private void Awake()
+    {
+        if(_autoSetup)
+            Setup(_initialHealth);
+    }
 
     public void Setup(int health)
     {
@@ -31,8 +38,12 @@ public class HealthComponent : MonoBehaviour, IDamageable
     {
         if(_isDead)
             return;
-        
+
         _currentHealth -= amount;
+        
+        if(_currentHealth < 0)
+            Debug.LogError("why");
+        
         HealthChanged?.Invoke();
 
         if (_currentHealth <= 0)

@@ -25,7 +25,6 @@ public class ShipController : MonoBehaviour
 
     public void Setup()
     {
-        _health.Setup(GameSettings.ShipHealth);
         _movement.Setup(GameSettings.ShipSpeed);
         _gun.Setup(GameSettings.GunFireRate);
     }
