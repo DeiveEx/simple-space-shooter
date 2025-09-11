@@ -5,10 +5,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private HealthComponent _lives;
     [SerializeField] private ScoreComponent _score;
     
-    private ShipController _shipController;
     private InputSystem_Actions _inputActions;
 
-    public ShipController Ship => _shipController;
     public HealthComponent Lives => _lives;
     public ScoreComponent Score => _score;
     private IEventBus EventBus => SimpleServiceLocator.GetService<IEventBus>();
