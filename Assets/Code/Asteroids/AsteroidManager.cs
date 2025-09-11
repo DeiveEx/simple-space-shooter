@@ -25,7 +25,6 @@ public class AsteroidManager : MonoBehaviour
     }
     
     [SerializeField] private AsteroidSpec[] _asteroidSpecs;
-    [SerializeField] private int _initialAmount = 5;
     [SerializeField] private float _minPlayerRange = 5;
 
     private Camera _camera;
@@ -43,7 +42,6 @@ public class AsteroidManager : MonoBehaviour
         ConfigurePools();
         
         EventBus.RegisterHandler<ShipSpawnedEvent>(OnShipSpawned);
-        EventBus.RegisterHandler<GameStartedEvent>(OnGameStarted);
     }
 
     private void OnDestroy()
@@ -52,18 +50,17 @@ public class AsteroidManager : MonoBehaviour
             return;
         
         EventBus.UnregisterHandler<ShipSpawnedEvent>(OnShipSpawned);
-        EventBus.UnregisterHandler<GameStartedEvent>(OnGameStarted);
     }
     
     private void OnShipSpawned(ShipSpawnedEvent obj)
     {
         _ship = obj.Ship;
     }
-    
-    private void OnGameStarted(GameStartedEvent obj)
+
+    public void SpawnRandomAsteroids(int amount)
     {
         //Spawn some random initial asteroids
-        for (int i = 0; i < _initialAmount; i++)
+        for (int i = 0; i < amount; i++)
         {
             var spawnPos = GetRandomSpawnPosition();
             var randomDir = Random.insideUnitCircle.normalized;
@@ -94,6 +91,9 @@ public class AsteroidManager : MonoBehaviour
                 {
                     asteroid.gameObject.SetActive(false);
                     _asteroids.Remove(asteroid);
+
+                    if(_asteroids.Count == 0)
+                        EventBus.Publish(new AsteroidsClearedEvent());
                 }
             );
         }

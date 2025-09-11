@@ -13,14 +13,36 @@ public class PlayerController : MonoBehaviour
     public HealthComponent Health => _health;
     public ScoreComponent Score => _score;
     private IEventBus EventBus => GameManager.Instance.EventBus;
-    
+
+    private void Awake()
+    {
+        EventBus.RegisterHandler<AsteroidDestroyedEvent>(OnAsteroidDestroyed);
+    }
+
+    private void OnDestroy()
+    {
+        EventBus.UnregisterHandler<AsteroidDestroyedEvent>(OnAsteroidDestroyed);
+    }
+
+    private void OnAsteroidDestroyed(AsteroidDestroyedEvent obj)
+    {
+        Score.AddScore(obj.Score);
+    }
+
     public void SpawnShip()
     {
         _shipController = Instantiate(_shipPrefab);
-        _shipController.Health.Died += () => Health.Damage(1);
+        _shipController.Health.Died += OnShipDied;
         
         _inputHandler.Setup(_shipController);
 
         EventBus.Publish(new ShipSpawnedEvent() { Ship = _shipController });
+    }
+
+    private void OnShipDied()
+    {
+        Health.Damage(1);
+        _shipController.Die();
+        _shipController = null;
     }
 }

@@ -12,5 +12,8 @@ public class HUDController : MonoBehaviour
         
         _model.PlayerHealth.HealthChanged += () => _view.UpdateHealth(_model.PlayerHealth.CurrentHealth);
         _model.ScoreController.ScoreChanged += () => _view.UpdatePoints(_model.ScoreController.CurrentScore);
+        
+        _view.UpdateHealth(_model.PlayerHealth.CurrentHealth);
+        _view.UpdatePoints(_model.ScoreController.CurrentScore);
     }
 }

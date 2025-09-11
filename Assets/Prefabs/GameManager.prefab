@@ -48,6 +48,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _asteroidManager: {fileID: 7910901744969722976}
   _player: {fileID: 729059599903522148}
+  _respawnDelay: 1
+  _initialAsteroidAmount: 5
+  _difficultyCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 10
+      value: 10
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &6321756871203867798
 PrefabInstance:
   m_ObjectHideFlags: 0

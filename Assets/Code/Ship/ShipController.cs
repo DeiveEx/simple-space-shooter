@@ -19,4 +19,9 @@ public class ShipController : MonoBehaviour
         _gun = GetComponent<IGunController>();
         _health = GetComponent<HealthComponent>();
     }
+
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
 }
