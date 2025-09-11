@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("EventBus.EditorTests")]
 namespace Systems.EventBus
 {
     public class SimpleEventBus : IEventBus
     {
-        private readonly Dictionary<Type, Dictionary<int, Action<IEvent>>> _handlers = new();
+        internal readonly Dictionary<Type, Dictionary<int, Action<IEvent>>> _handlers = new();
 
         public void Publish(IEvent @event)
         {
