@@ -41,6 +41,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnShipDied()
     {
+        if(_shipController == null)
+            return;
+        
         Health.Damage(1);
         _shipController.Die();
         _shipController = null;
